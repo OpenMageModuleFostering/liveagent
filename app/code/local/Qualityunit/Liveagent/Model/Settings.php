@@ -18,7 +18,7 @@ class Qualityunit_Liveagent_Model_Settings extends Mage_Core_Model_Abstract {
 		}
 
 		$customer = $customerSession->getCustomer();
-		//var_export($customer);
+
 		if (($customer->getFirstname() != null) && ($customer->getFirstname() != '')) {
 
 			$htmlCode = str_replace('%%firstName%%', "LiveAgent.addUserDetail('firstName', '" . $customer->getFirstname() . "');\n", $htmlCode);
@@ -41,12 +41,17 @@ class Qualityunit_Liveagent_Model_Settings extends Mage_Core_Model_Abstract {
 			$htmlCode = str_replace('%%email%%', '', $htmlCode);
 		}
 
-		if (($customer->getPrimaryBillingAddress()->getTelephone() != null) && ($customer->getPrimaryBillingAddress()->getTelephone() != '')) {
-			$htmlCode = str_replace('%%phone%%', "LiveAgent.addUserDetail('phone', '" . $customer->getPrimaryBillingAddress()->getTelephone() . "');\n", $htmlCode);
-		}
-		else {
-			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
-		}
+    try {
+  		if (($customer->getPrimaryBillingAddress()->getTelephone() != null) && ($customer->getPrimaryBillingAddress()->getTelephone() != '')) {
+  			$htmlCode = str_replace('%%phone%%', "LiveAgent.addUserDetail('phone', '" . $customer->getPrimaryBillingAddress()->getTelephone() . "');\n", $htmlCode);
+  		}
+  		else {
+  			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
+  		}
+    }
+    catch (Exception $e) {
+  			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
+    }
 		return $htmlCode;
 	}
 

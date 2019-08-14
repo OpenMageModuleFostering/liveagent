@@ -67,9 +67,6 @@ jQuery(function($) {
 					$('.progress-bar').width("100%");
 					$('.loader-label').text(translateMe("Redirecting..."));
 					$('.percentage').text("100%");
-					// no original redirect ...
-					/*redirectForm = '<form method="POST" action="' + my_data.response.login_url + '"><input type="hidden" name="action" value="login"><input type="hidden" name="AuthToken" value="' + my_data.response.login_token + '"><input type="hidden" name="l" value="' + languageCode + '"></form>';
-					$(redirectForm).appendTo('body').submit();*/
 					redirectForm = '<form method="POST" action="' + $('#continue').val() + 
 					'"><input type="hidden" name="la-full-name" value="' + requestData.customer_name + 
 					'"><input type="hidden" name="la-owner-email" value="' + requestData.customer_email + 
@@ -127,7 +124,6 @@ jQuery(function($) {
 				requestData = data;
 				formKey = $('#form_key').val();
 				hideSingupForm(my_data.response);
-				//$('<img height="1" width="1" src="//www.googleadservices.com/pagead/conversion/966671101/imp.gif?label=ER6zCKjv_1cQ_fX4zAM&amp;guid=ON&amp;script=0" />').appendTo('#signup');
 			},
 			error: function (data, textStatus, errorThrown) {
 				console.log(data.responseJSON.response.errormessage);
@@ -148,12 +144,6 @@ jQuery(function($) {
 	};
 
 	$.fn.getIframePreviewCode = function(id) {
-		/*var iframe = document.createElement('iframe');
-		iframe.src = ;
-		//alert (encodeURI($('#iFrame' + id).val()));
-		iframe.appendTo($('#iFramePreview' + id).html());
-		//$('#iFramePreview' + id).html(iframe.contentDocument);*/
-		//var iframe = $('<iframe />').attr('src', 'data:text/html;charset=utf-8,' + encodeURI($('#iFrame' + id).val())).appendTo($('#iFramePreview' + id));
 		$('#iFramePreview' + id).contents().find("body").html($('#iFrame' + id).val());
 	}
 
@@ -326,14 +316,9 @@ jQuery(function($) {
   	}, 500);
 	});
 	
-	/*	$('#domainFieldmain').focusout(function() {
-  	if(!$('#domainFieldmain input').val()) {
-      $('#domainFieldmain').addError("Choose a unique name");
-  	}
-	else {
-    	$.fn.validateDomain()
-  	}
-	});*/
+	$('textarea#la-config-button-code').on('change', function() {
+		$('.SaveWidgetCode').show();
+	});
 	
 	$('#domainFieldmain').on('change', function() {
 		if(!$('#domainFieldmain input').val()) {
