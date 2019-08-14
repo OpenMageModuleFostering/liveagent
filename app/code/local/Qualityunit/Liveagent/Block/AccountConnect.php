@@ -27,14 +27,14 @@ class Qualityunit_Liveagent_Block_AccountConnect extends Qualityunit_Liveagent_B
 		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());
 		$this->assignVariable('saveUrlAction', $this->getUrl('*/*/post'));
 		$this->assignVariable('connectUrlAction', $this->getUrl('*/*/index', array('key' => $this->getRequest()->get('key'), 'action' => self::CONNECT_ACCOUNT_ACTION_FLAG)));
-		$this->assignVariable('urlLabel', Mage::helper('adminhtml')->__('Url')) . ':';
+		$this->assignVariable('urlLabel', Mage::helper('adminhtml')->__('Url') . ':');
 		$this->assignVariable('urlHelp', Mage::helper('adminhtml')->__('Url where your LiveAgent installation is located'));
 		$this->assignVariable('laOwnerEmailHelp', Mage::helper('adminhtml')->__('Username which you use to login to your Live Agent'));
-		$this->assignVariable('nameLabel', Mage::helper('adminhtml')->__('Username')) . ':';
+		$this->assignVariable('nameLabel', Mage::helper('adminhtml')->__('Username') . ':');
 		$this->assignVariable('sslSecure', Mage::helper('adminhtml')->__('SSL secure signup'));
-		$this->assignVariable('accountUrl', Mage::helper('adminhtml')->__('URL')) . ':';
-		$this->assignVariable('accountEmail', Mage::helper('adminhtml')->__('Email')) . ':';
-		$this->assignVariable('accountAPIKey', Mage::helper('adminhtml')->__('API Key')) . ':';
+		$this->assignVariable('accountUrl', Mage::helper('adminhtml')->__('URL') . ':');
+		$this->assignVariable('accountEmail', Mage::helper('adminhtml')->__('Email') . ':');
+		$this->assignVariable('accountAPIKey', Mage::helper('adminhtml')->__('API Key') . ':');
 
 		$this->assignVariable(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, $this->settings->getLiveAgentUrl());
 		$this->assignVariable(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $this->settings->getOwnerEmail());
@@ -42,6 +42,7 @@ class Qualityunit_Liveagent_Block_AccountConnect extends Qualityunit_Liveagent_B
 		$this->assignVariable('saveActionSettingsFlag', self::CONNECT_ACCOUNT_ACTION_FLAG);
 		$this->assignVariable('urlName', Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME);
 		$this->assignVariable('apiKeyName', Qualityunit_Liveagent_Helper_Settings::LA_API_KEY);
+		$this->assignVariable('ownerEmailName', Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME);
 	}
 
 	protected function getTemplateString(){
@@ -67,10 +68,10 @@ class Qualityunit_Liveagent_Block_AccountConnect extends Qualityunit_Liveagent_B
 					</div>
 					<div class="mailField">
 						<div class="emailLabel">{accountEmail}<span></span></div>
-						<div id="mailFieldmain" class="g-FormField2 FieldNotSet">
+						<div id="mailFieldmain1" class="g-FormField2 FieldNotSet">
 							<div id="mailFieldinputPanel" class="g-FormField2-InputPanel"></div>
 							<div id="mailFieldTextContainer" class="TextBoxContainer TextBoxContainer-mandatory">
-								<input id="mailFieldinnerWidget" class="Placeholdem TextBox TextBox-mandatory" name="Email" value="{la-owner-email}" placeholder="Your login information will be sent here" autocomplete="off" type="text">
+								<input id="mailFieldinnerWidget" class="Placeholdem TextBox TextBox-mandatory" name="{ownerEmailName}" value="{la-owner-email}" placeholder="Your login information will be sent here" autocomplete="off" type="text">
 							</div>
 							<div id="mailFielddescription" class="g-FormField2-Description"></div>
 							<div id="mailFieldmessage" class="g-FormField2-Message"></div>

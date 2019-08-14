@@ -47,10 +47,9 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		$this->doAfterPost();
 	}
 
-	private function createDefaultWidget() {
+	private function createDefaultWidget(){
 		$connectHelper = new Qualityunit_Liveagent_Helper_Connect();
 		$settings = new Qualityunit_Liveagent_Helper_Settings();
-
 		try {
 			$connectHelper->createWidget($settings->getLiveAgentUrl(), $settings->getDefaultWidgetParams());
 			return;
@@ -70,8 +69,7 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 					$post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME],
 					$post[Qualityunit_Liveagent_Helper_Settings::LA_API_KEY]
 			);
-			$this->renderAccountDialog();
-			$this->renderLayout();
+			$this->_redirect('*/*');
 		} catch (Qualityunit_Liveagent_Exception_ConnectFailed $e) {
 			$this->connectFailed($e);
 			return;
@@ -219,7 +217,6 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		} else {
 			$block = new Qualityunit_Liveagent_Block_Signup();
 		}
-		//$block = new Qualityunit_Liveagent_Block_Signup();
 		$this->_addContent($this->getLayout()->createBlock($block));
 	}
 
@@ -231,7 +228,7 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		$connectHelper = new Qualityunit_Liveagent_Helper_Connect();
 		try {
 			$response = $connectHelper->connectWithLA($url, $email, $apikey);
-			$this->saveAccountDetails($email, $url, $apiKey, $response->authtoken);
+			$this->saveAccountDetails($email, $url, $apikey, $response->authtoken);
 		} catch (Qualityunit_Liveagent_Exception_Base $e) {
 			throw new Qualityunit_Liveagent_Exception_ConnectFailed($e->getMessage());
 		}
@@ -240,7 +237,15 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 	}
 
 	private function saveAccountDetails($email, $domain, $apiKey, $authToken) {
-		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, 'http://' . $domain . '.ladesk.com/');
+		if ((strpos($domain, 'http:') === false) && (strpos($domain, 'https:') === false)) {
+			$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, 'http://' . $domain . '.ladesk.com/');
+		} else {
+			if (substr($domain, -1) != '/') {
+				$domain .= '/';
+			}
+			$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, $domain);
+		}
+
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $email);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_API_KEY, $apiKey);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, $authToken);

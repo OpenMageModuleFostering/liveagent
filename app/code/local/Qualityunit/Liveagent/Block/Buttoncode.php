@@ -169,7 +169,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 							<td class="scope-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 							<td class="value" style="text-align: center">
 								<div id="connectButtonmain" class="ImLeButtonMain1 buttonBgColor buttonBorderColor createButton" tabindex="0">
-									<span onclick="setLocation(\'{loginUrl}\')" class="buttonText">{loginLabel}</span>
+									<span onclick="window.open(\'{loginUrl}\', \'_blank\')" class="buttonText">{loginLabel}</span>
 								</div>
 							</td>
 							<td class="scope-label"></td><td></td>
@@ -187,7 +187,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 		        </div>
 				<div class="formFooter">
 					<div id="connectButtonmain" class="ImLeButtonMain1 buttonBgColor buttonBorderColor createButton" tabindex="0">
-						<span onclick="setLocation(\'{loginUrl}\')" class="buttonText">{addMoreButtons}</span>
+						<span onclick="window.open(\'{loginUrl}\', \'_blank\')" class="buttonText">{addMoreButtons}</span>
 					</div>
 					<span class="LaSignupFormDesc1">{LaSignupFormDesc} {la-url}</span>
 				</div>

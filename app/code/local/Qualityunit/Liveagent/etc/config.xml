@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Qualityunit_Liveagent>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
 		</Qualityunit_Liveagent>
 	</modules>
 	<frontend>
@@ -21,17 +21,17 @@
 					<file>liveagent.xml</file>
 				</liveagent>
 			</updates>
-		</layout>		
+		</layout>
 	</frontend>
 	<admin>
 		<routers>
-			<liveagent>
-				<use>admin</use>
+			<adminhtml>
 				<args>
-					<module>Qualityunit_Liveagent</module>
-					<frontName>liveagent</frontName>
+					<modules>
+            <liveagent after="Mage_Adminhtml">Qualityunit_Liveagent_Adminhtml</liveagent>
+          </modules>
 				</args>
-			</liveagent>
+			</adminhtml>
 		</routers>
 	</admin>
 	<adminhtml>
@@ -47,11 +47,11 @@
 				<title>LiveAgent</title>
 				<sort_order>71</sort_order>
 				<children>
-					<account module="liveagent" translate="title">
+					<accountconnect module="liveagent" translate="title">
 						<title>Account settings</title>
 						<sort_order>0</sort_order>
-						<action>liveagent/adminhtml_liveagent</action>
-					</account>					
+						<action>adminhtml/liveagent/index</action>
+					</accountconnect>
 				</children>
 			</liveagent>
 		</menu>

@@ -1,0 +1,13 @@
+<?php
+// display in admin?
+$display = Mage::getModel('liveagent/settings')->load('la-display-in-admin', 'name');
+if ($display->getValue() == '') {
+	return;
+}
+$setting = Mage::getModel('liveagent/settings')->load('la-config-button-code', 'name');
+$settings = Mage::getModel('liveagent/settings');
+if ($setting->getValue() != '') {
+	$result = $settings->replacePlaceholders($setting->getData('value'));
+	echo $result;
+} 
+?>

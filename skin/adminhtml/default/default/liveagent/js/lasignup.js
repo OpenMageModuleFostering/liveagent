@@ -143,6 +143,7 @@ jQuery(function($) {
 		var res = $("textarea#" + buttonId).val();
 		$("textarea#la-config-button-code").val(res);
 		$("#buttonId").val(buttonId);
+		replacePlaceholder();
 		$("#configForm").submit();
 	};
 
@@ -280,6 +281,26 @@ jQuery(function($) {
 		}
 		return randomstring;
 	}
+	
+	var replacePlaceholder = function() {
+		var widgetCode = $('textarea#' + $('#buttonId').val() ).val();
+		var pos = widgetCode.indexOf("function(e){") + 13;
+		var result = '';
+		if ($('#configOptionName').is(':checked')) {
+			result += "%%firstName%%%%lastName%%";
+		}
+		if ($('#configOptionEmail').is(':checked')) {
+			result += "%%email%%";
+		}
+		if ($('#configOptionPhone').is(':checked')) {
+			result += "%%phone%%";
+		}
+		/*if ($('#configOptionOrder').is(':checked')) {
+			result += "%%order%%";
+		}*/
+		$('textarea#la-config-button-code').val([widgetCode.slice(0, pos), result, widgetCode.slice(pos)].join(''));	
+		$('.SaveWidgetCode').show();
+	}
 
 	if (typeof productid == 'undefined') {
 		productid = default_productid;
@@ -372,23 +393,7 @@ jQuery(function($) {
 	});
 	
 	$('.configOptions input').change(function () {
-		var widgetCode = $('textarea#' + $('#buttonId').val() ).val();
-		var pos = widgetCode.indexOf("function(e){") + 13;
-		var result = '';
-		if ($('#configOptionName').is(':checked')) {
-			result += "%%firstName%%%%lastName%%";
-		}
-		if ($('#configOptionEmail').is(':checked')) {
-			result += "%%email%%";
-		}
-		if ($('#configOptionPhone').is(':checked')) {
-			result += "%%phone%%";
-		}
-		/*if ($('#configOptionOrder').is(':checked')) {
-			result += "%%order%%";
-		}*/
-		$('textarea#la-config-button-code').val([widgetCode.slice(0, pos), result, widgetCode.slice(pos)].join(''));	
-		$('.SaveWidgetCode').show();
+		replacePlaceholder();
 	});
 });
 
