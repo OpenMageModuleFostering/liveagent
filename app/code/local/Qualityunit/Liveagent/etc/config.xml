@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Qualityunit_Liveagent>
-			<version>0.1.0</version>
+			<version>1.0.0</version>
 		</Qualityunit_Liveagent>
 	</modules>
 	<frontend>
@@ -21,7 +21,7 @@
 					<file>liveagent.xml</file>
 				</liveagent>
 			</updates>
-		</layout>
+		</layout>		
 	</frontend>
 	<admin>
 		<routers>
@@ -35,6 +35,13 @@
 		</routers>
 	</admin>
 	<adminhtml>
+		<layout>
+			<updates>
+				<liveagent>
+					<file>liveagent.xml</file>
+				</liveagent>
+			</updates>
+		</layout>
 		<menu>
 			<liveagent module="liveagent" translate="title">
 				<title>LiveAgent</title>
@@ -63,13 +70,6 @@
 				</admin>
 			</resources>
 		</acl>
-		<layout>
-			<updates>
-				<liveagent>
-					<file>liveagent.xml</file>
-				</liveagent>
-			</updates>
-		</layout>
 		<translate>
             <modules>
                 <liveagent>

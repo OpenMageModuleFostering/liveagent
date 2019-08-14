@@ -9,4 +9,3 @@
  */
 
 class Qualityunit_Liveagent_Exception_ConnectProblem extends Exception {}
-?>

@@ -8,4 +8,4 @@
  *   Licensed under GPL2
  */
 
-class Qualityunit_Liveagent_Exception_SignupFailed extends Exception {}
+class Qualityunit_Liveagent_Exception_ConnectFailed extends Exception {}
