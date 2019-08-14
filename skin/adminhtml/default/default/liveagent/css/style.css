@@ -221,7 +221,7 @@ body{oveflow:hidden;max-width:100%}
 .fWrapperColor6.cBlock:after{background:#3EB8BD}
 .fWrapperColor6.ccBlock:after{background:#3EB8BD}
 #c36896 img{border:1px solid #ccc}
-.mainBox{width:480px;height:auto;background:rgb(23,0,0);background:rgba(23,0,0,0.6);text-align:center;z-index:9999;position:relative;border-radius:2px}
+.mainBox{width:480px;height:auto;background:rgb(23,0,0);background:rgba(23,0,0,0.6);text-align:center;z-index:98;position:relative;border-radius:2px}
 .mainBox h1{font-weight:300;font-size:42px;color:#fff;line-height:48px;border-bottom:1px solid #6ed100;display:block;text-align:center;background:rgb(23,0,0);border-top-left-radius:2px;border-top-right-radius:2px;background:rgba(23,0,0,0.6);padding:15px 2% 17px;font-family:'OpenSans',sans-serif;margin-bottom:15px}
 .bodyLang5 .mainBox h1{font-size:34px}
 .mainBox p{color:#fff;max-width:120px;margin:0 15px 15px}
@@ -350,3 +350,6 @@ h3.head-promo-catalog {background-image: url("la_logo.svg");height: 52px;text-in
 .form-list p.note {color: grey;}
 .inUseLabel {width: 100px;display: block;height: 20px;margin: 3px auto 0px;background: transparent url("ok_icon.png") no-repeat scroll left -1px / 20px 20px;}
 .displayInAdminCheckbox {display: block; float: left; clear: both}
+
+#resetLink {text-align: right; font-style: italic; float: right; margin: 0}
+#resetLink:hover {cursor:pointer; color:#ea7601}

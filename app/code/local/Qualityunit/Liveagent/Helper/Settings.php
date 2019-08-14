@@ -190,16 +190,16 @@ class Qualityunit_Liveagent_Helper_Settings {
 		);
 	}
 
-  public function getSavedButtonCode() {
-    $config = Mage::getSingleton('liveagent/config');
-    if (!$config->isButtonEnabled()) {
-        return '<!-- LiveAgent: la_error - button display is turned off for this store -->';
+    public function getSavedButtonCode() {
+        $config = Mage::getSingleton('liveagent/config');
+        if (!$config->isButtonEnabled()) {
+            return '<!-- LiveAgent: la_error - button display is turned off for this store -->';
+        }
+    	if ($this->getOption(Qualityunit_Liveagent_Helper_Settings::BUTTON_CODE) != '') {
+    		return $this->replacePlaceholders($this->getOption(Qualityunit_Liveagent_Helper_Settings::BUTTON_CODE));
+    	}
+    	return '<!-- LiveAgent: la_error - no button code set yet -->';
     }
-		if ($this->getOption(Qualityunit_Liveagent_Helper_Settings::BUTTON_CODE) != '') {
-			return $this->replacePlaceholders($this->getOption(Qualityunit_Liveagent_Helper_Settings::BUTTON_CODE));
-		}
-		return '<!-- LiveAgent: la_error - no button code set yet -->';
-	}
 
 	public function replacePlaceholders($htmlCode) {
 		$customerSession = Mage::getSingleton('customer/session');
@@ -215,7 +215,6 @@ class Qualityunit_Liveagent_Helper_Settings {
 		$customer = $customerSession->getCustomer();
 
 		if (($customer->getFirstname() != null) && ($customer->getFirstname() != '')) {
-
 			$htmlCode = str_replace('%%firstName%%', "LiveAgent.addUserDetail('firstName', '" . $customer->getFirstname() . "');\n", $htmlCode);
 		}
 		else {
@@ -236,17 +235,17 @@ class Qualityunit_Liveagent_Helper_Settings {
 			$htmlCode = str_replace('%%email%%', '', $htmlCode);
 		}
 
-    if ($customer->getPrimaryBillingAddress() !== false) {
-  		if (($customer->getPrimaryBillingAddress()->getTelephone() != null) && ($customer->getPrimaryBillingAddress()->getTelephone() != '')) {
-  			$htmlCode = str_replace('%%phone%%', "LiveAgent.addUserDetail('phone', '" . $customer->getPrimaryBillingAddress()->getTelephone() . "');\n", $htmlCode);
-  		}
-  		else {
-  			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
-  		}
-    }
-    else {
-  			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
-    }
+        if ($customer->getPrimaryBillingAddress() !== false) {
+        	if (($customer->getPrimaryBillingAddress()->getTelephone() != null) && ($customer->getPrimaryBillingAddress()->getTelephone() != '')) {
+        		$htmlCode = str_replace('%%phone%%', "LiveAgent.addUserDetail('phone', '" . $customer->getPrimaryBillingAddress()->getTelephone() . "');\n", $htmlCode);
+        	}
+        	else {
+        		$htmlCode = str_replace('%%phone%%', '', $htmlCode);
+        	}
+        }
+        else {
+        		$htmlCode = str_replace('%%phone%%', '', $htmlCode);
+        }
 		return $htmlCode;
 	}
 

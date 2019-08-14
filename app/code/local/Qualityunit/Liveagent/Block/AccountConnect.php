@@ -2,7 +2,7 @@
 /**
  *   @copyright Copyright (c) 2015 Quality Unit s.r.o.
  *   @author Martin Devecka, Martin Pullmann
- *   @package WpLiveAgentPlugin
+ *   @package MgLiveAgentPlugin
  *   @version 1.0.0
  *
  *   Licensed under GPL2
@@ -11,6 +11,7 @@ class Qualityunit_Liveagent_Block_AccountConnect extends Qualityunit_Liveagent_B
 
 	const CONNECT_ACCOUNT_ACTION_FLAG = 'ca';
 	const SAVE_BUTTON_CODE_ACTION_FLAG = 'sb';
+	const RESET_SETTINGS_ACTION_FLAG = 'rs';
 
 	private $settings = null;
 
@@ -59,7 +60,7 @@ class Qualityunit_Liveagent_Block_AccountConnect extends Qualityunit_Liveagent_B
 						<div id="urlFieldmain" class="g-FormField2 FieldNotSet">
 							<div id="urlFieldinputPanel" class="g-FormField2-InputPanel"></div>
 							<div id="urlFieldTextContainer" class="TextBoxContainer TextBoxContainer-mandatory">
-								<input id="urlFieldinnerWidget" class="Placeholdem TextBox TextBox-mandatory" name="{urlName}" value="{la-url}" placeholder="http://account.ladesk.com" autocomplete="off" type="text">
+								<input id="urlFieldinnerWidget" class="Placeholdem TextBox TextBox-mandatory" name="{urlName}" value="{la-url}" placeholder="https://account.ladesk.com" autocomplete="off" type="text">
 							</div>
 							<div id="urlFielddescription" class="g-FormField2-Description"></div>
 							<div id="urlFieldmessage" class="g-FormField2-Message"></div>

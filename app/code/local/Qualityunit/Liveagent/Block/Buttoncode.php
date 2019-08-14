@@ -28,11 +28,12 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 		$this->assignVariable('displayInAdminPanel', Mage::helper('adminhtml')->__('Display button in admin panel'));
 		$this->assignVariable('saveWidgetCodeHelp', Mage::helper('adminhtml')->__('The default widget code has just changed. You have to save it to apply the changes to the site chat widget.'));
 		$this->assignVariable('saveWidgetCode', Mage::helper('adminhtml')->__('Save widget code'));
+		$this->assignVariable('resetText', Mage::helper('adminhtml')->__('Reset settings and start over'));
 
 		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());
 		$this->assignVariable('saveUrlAction', $this->getUrl('*/*/post'));
 
-		$code = htmlentities($settings->getSavedButtonCode());
+		$code = htmlentities($settings->getOption(Qualityunit_Liveagent_Helper_Settings::BUTTON_CODE));
 
 		$this->assignVariable('buttonId', $settings->getSavedButtonId());
 		$this->assignVariable('la-config-button-code', $this->getTextArea('la-config-button-code', $code, 10 ,200, ' textarea'));
@@ -41,6 +42,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 		$this->assignVariable('la-url', $settings->getLiveAgentUrl());
 		$this->assignVariable('loginUrl', $this->getLoginUrl($settings));
 		$this->assignVariable('ChangeUrl', $this->getUrl('*/*/index', array('key' => $this->getRequest()->get('key'), 'action' => Qualityunit_Liveagent_Block_AccountConnect::CONNECT_ACCOUNT_ACTION_FLAG)));
+		$this->assignVariable('resetUrl', $this->getUrl('*/*/index', array('key' => $this->getRequest()->get('key'), 'action' => Qualityunit_Liveagent_Block_AccountConnect::RESET_SETTINGS_ACTION_FLAG)));
 
 		$this->prepareWidgetsBox($settings);
 
@@ -176,6 +178,8 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 						</tr>
 					</tbody>
 				</table>
+		        <p id="resetLink">{resetText}?</p>
+                <input type="hidden" id="resetUrl" value="{resetUrl}" />
 			</fieldset>
 		</div>
 		<div class="entry-edit">

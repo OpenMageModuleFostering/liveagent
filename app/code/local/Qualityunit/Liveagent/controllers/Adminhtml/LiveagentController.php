@@ -199,8 +199,13 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 			$this->renderLayout();
 			return;
 		}
- 		if ($this->getRequest()->getParam('action')==Qualityunit_Liveagent_Block_AccountConnect::CONNECT_ACCOUNT_ACTION_FLAG) {
+		if ($this->getRequest()->getParam('action')==Qualityunit_Liveagent_Block_AccountConnect::CONNECT_ACCOUNT_ACTION_FLAG) {
  			$block = new Qualityunit_Liveagent_Block_AccountConnect();
+ 		}
+ 		if ($this->getRequest()->getParam('action')==Qualityunit_Liveagent_Block_AccountConnect::RESET_SETTINGS_ACTION_FLAG) {
+ 		    $this->resetSettings();
+ 		 	$this->doAfterPost();
+ 		 	return;
  		}
 		$this->_addContent($this->getLayout()->createBlock($block));
 		$this->renderLayout();
@@ -237,6 +242,14 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		}
 		Mage::log("Connect response recieved: " . print_r($response, true), Zend_log::DEBUG);
 		Mage::log("Response OK", Zend_log::DEBUG);
+	}
+
+	private function resetSettings() {
+	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, '');
+	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, '');
+	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_API_KEY, '');
+	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, '');
+	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, '');
 	}
 
 	private function saveAccountDetails($email, $domain, $apiKey, $authToken) {

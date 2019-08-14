@@ -76,7 +76,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 	}
 
 	protected function getTemplateString() {
-			return '<div id="signup" class="nlHostedForm mainBox visible">
+			return '<div id="signup" class="nlHostedForm mainBox">
 				<h1>{dialogCaption}</h1>
 				<p class="secure">{sslSecure}</p>
 				<div class="LaSignupForm">
@@ -137,7 +137,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 				</div>
 			</div>
 
-			<div id="loader" class="nlHostedForm mainBox" style="display:none;">
+			<div id="loader" class="nlHostedForm mainBox invisible">
 				<h1>{buildingLA}</h1>
 				<p>{buildingLALong}</p>
 			<div class="loading-bar">
@@ -168,12 +168,6 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 			</div>
 
 			<script type="text/javascript">
-					jQuery(function($) {
-						$("#domainFieldinnerWidget").keypress();
-						$.fn.validateEmail();
-						$.fn.validateName();
-						$.fn.validateDomain();
-					});
 				var skipCreate = function() {
 					setLocation(\'{skipUrlAction}\');
 					return false;
