@@ -227,6 +227,9 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 	private function sendConnectRequest($url, $email, $apikey) {
 		$connectHelper = new Qualityunit_Liveagent_Helper_Connect();
 		try {
+      if ((strpos($url, 'http:') !== false) && (strpos($url, '.ladesk.com') !== false)) {
+        $url = str_replace('http:', 'https:', $url);
+      }
 			$response = $connectHelper->connectWithLA($url, $email, $apikey);
 			$this->saveAccountDetails($email, $url, $apikey, $response->authtoken);
 		} catch (Qualityunit_Liveagent_Exception_Base $e) {
@@ -238,7 +241,7 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 
 	private function saveAccountDetails($email, $domain, $apiKey, $authToken) {
 		if ((strpos($domain, 'http:') === false) && (strpos($domain, 'https:') === false)) {
-			$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, 'http://' . $domain . '.ladesk.com/');
+			$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, 'https://' . $domain . '.ladesk.com/');
 		} else {
 			if (substr($domain, -1) != '/') {
 				$domain .= '/';

@@ -1,7 +1,7 @@
 <?php
 /**
  *   @copyright Copyright (c) 2015 Quality Unit s.r.o.
- *   @author Martin Devecka, Martin Pullmann
+ *   @author Martin Pullmann
  *   @package WpLiveAgentPlugin
  *   @version 1.0.0
  *
@@ -29,7 +29,10 @@ class Qualityunit_Liveagent_Helper_Connect {
         curl_close($ch);
         $decodedResponse = json_decode($curl_response);
         if (!isset($decodedResponse->response)) {
-            throw new Qualityunit_Liveagent_Exception_Base('Connection failed. Please try again...');
+            if (($info['http_code'] == 301) || ($info['http_code'] == 302)) {
+                throw new Qualityunit_Liveagent_Exception_Base('Connection failed. The request has been redirected to '.$info['redirect_url']);
+            }
+            throw new Qualityunit_Liveagent_Exception_Base('Connection failed with error '.$info['http_code'].'. Please try again...');
         }
         if ($info['http_code'] != 200) {
             throw new Qualityunit_Liveagent_Exception_Base('Connection failed with error "' . $decodedResponse->response->errormessage . '"');
