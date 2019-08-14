@@ -41,7 +41,7 @@ class Qualityunit_Liveagent_Model_Settings extends Mage_Core_Model_Abstract {
 			$htmlCode = str_replace('%%email%%', '', $htmlCode);
 		}
 
-    try {
+    if ($customer->getPrimaryBillingAddress() !== false) {
   		if (($customer->getPrimaryBillingAddress()->getTelephone() != null) && ($customer->getPrimaryBillingAddress()->getTelephone() != '')) {
   			$htmlCode = str_replace('%%phone%%', "LiveAgent.addUserDetail('phone', '" . $customer->getPrimaryBillingAddress()->getTelephone() . "');\n", $htmlCode);
   		}
@@ -49,7 +49,7 @@ class Qualityunit_Liveagent_Model_Settings extends Mage_Core_Model_Abstract {
   			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
   		}
     }
-    catch (Exception $e) {
+    else {
   			$htmlCode = str_replace('%%phone%%', '', $htmlCode);
     }
 		return $htmlCode;
