@@ -36,11 +36,11 @@
 	</admin>
 	<adminhtml>
 		<menu>
-			<liveagent module="liveagent">
-				<title>Liveagent</title>
+			<liveagent module="liveagent" translate="title">
+				<title>LiveAgent</title>
 				<sort_order>71</sort_order>
 				<children>
-					<account module="liveagent">
+					<account module="liveagent" translate="title">
 						<title>Account settings</title>
 						<sort_order>0</sort_order>
 						<action>liveagent/adminhtml_liveagent</action>
