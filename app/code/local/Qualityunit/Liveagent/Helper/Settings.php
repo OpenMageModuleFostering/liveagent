@@ -191,7 +191,6 @@ class Qualityunit_Liveagent_Helper_Settings {
 	}
 
   public function getSavedButtonCode() {
-    // TO DO: if allowed for this shop...
     $config = Mage::getSingleton('liveagent/config');
     if (!$config->isButtonEnabled()) {
         return '<!-- LiveAgent: la_error - button display is turned off for this store -->';

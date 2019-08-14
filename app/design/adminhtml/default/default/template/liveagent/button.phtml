@@ -4,10 +4,5 @@ $display = Mage::getModel('liveagent/settings')->load('la-display-in-admin', 'na
 if ($display->getValue() == '') {
 	return;
 }
-$setting = Mage::getModel('liveagent/settings')->load('la-config-button-code', 'name');
-$settings = Mage::getModel('liveagent/settings');
-if ($setting->getValue() != '') {
-	$result = $settings->replacePlaceholders($setting->getData('value'));
-	echo $result;
-} 
-?>
+$settings = Mage::helper('liveagent/settings');
+echo $settings->getSavedButtonCode();
