@@ -51,6 +51,13 @@ jQuery(function($) {
 		$('.SaveWidgetCode').show();
 	}
 	
+	var redirectToAdmin = function() {
+		var redirectForm = '<form method="POST" action="' + $('#loginUrl').val() + '">' +
+		'<input type="hidden" name="action" value="login">' +
+	    '<input type="hidden" name="AuthToken" value="' + $('#token').val() + '"></form>';
+	    jQuery(redirectForm).appendTo('body').submit();
+	}
+	
 	$('textarea#la-config-button-code').on('change', function() {
 		$('.SaveWidgetCode').show();
 	});
@@ -68,5 +75,13 @@ jQuery(function($) {
 		if (confirm("This will RESET everything so you could start over. Do you agree?")) {
 			window.location.href = $('#resetUrl').val();
 		}
+	});
+	
+	$('#loginButton').on('click', function() {
+		redirectToAdmin();
+	});
+
+	$('#addMoreButtons').on('click', function() {
+		redirectToAdmin();
 	});
 });

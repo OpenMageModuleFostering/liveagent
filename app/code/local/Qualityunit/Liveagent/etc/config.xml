@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Qualityunit_Liveagent>
-			<version>3.2.0</version>
+			<version>3.2.1</version>
 		</Qualityunit_Liveagent>
 	</modules>
 	<frontend>
@@ -28,8 +28,8 @@
 			<adminhtml>
 				<args>
 					<modules>
-            <liveagent after="Mage_Adminhtml">Qualityunit_Liveagent_Adminhtml</liveagent>
-          </modules>
+                        <liveagent after="Mage_Adminhtml">Qualityunit_Liveagent_Adminhtml</liveagent>
+                    </modules>
 				</args>
 			</adminhtml>
 		</routers>
@@ -53,6 +53,13 @@
 						<action>adminhtml/liveagent/index</action>
 					</accountconnect>
 				</children>
+				<children>
+                    <liveagentconfig module="liveagent" translate="title">
+                        <title>Multistore config</title>
+                        <sort_order>1</sort_order>
+                        <action>adminhtml/system_config/edit/section/liveagent_config</action>
+                    </liveagentconfig>
+                </children>
 			</liveagent>
 		</menu>
 		<acl>
@@ -66,17 +73,17 @@
 							<title>Liveagent Module</title>
 							<sort_order>10</sort_order>
 						</Qualityunit_Liveagent>
-            <system>
-              <children>
-                <config>
-                  <children>
-                    <liveagent_config>
-                      <title>LiveAgent multistore config</title>
-                    </liveagent_config>
-                  </children>
-                </config>
-              </children>
-            </system>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <liveagent_config>
+                                            <title>LiveAgent multistore config</title>
+                                        </liveagent_config>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
 					</children>
 				</admin>
 			</resources>

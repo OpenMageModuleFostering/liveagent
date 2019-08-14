@@ -15,7 +15,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 		$this->assignVariable('accountUrlLabel', Mage::helper('adminhtml')->__('Account URL'));
 		$this->assignVariable('loginLabel', Mage::helper('adminhtml')->__('Login to your account'));
 		$this->assignVariable('ChangeLabel', Mage::helper('adminhtml')->__('Connect to a different account'));
-		$this->assignVariable('buttonCodeHelp', Mage::helper('adminhtml')->__('This is the chat button code which will be automatically placed to your Magento site'));
+		$this->assignVariable('buttonCodeHelp', Mage::helper('adminhtml')->__('This is the chat button code which will be automatically placed to your Magento site.<br />Did you know you can manually modify it as well?'));
 		$this->assignVariable('configOptionsHelp', Mage::helper('adminhtml')->__('If customer is logged in, you can automatically add these to chat.'));
 		$this->assignVariable('configOptionsTitle', Mage::helper('adminhtml')->__('Additional options'));
 		$this->assignVariable('customer', Mage::helper('adminhtml')->__('customer'));
@@ -41,8 +41,10 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 		$this->assignVariable('saveButtonCodeFlag', Qualityunit_Liveagent_Block_AccountConnect::SAVE_BUTTON_CODE_ACTION_FLAG);
 		$this->assignVariable('la-url', $settings->getLiveAgentUrl());
 		$this->assignVariable('loginUrl', $this->getLoginUrl($settings));
+		$this->assignVariable('AuthToken', $this->getAuthToken($settings));
 		$this->assignVariable('ChangeUrl', $this->getUrl('*/*/index', array('key' => $this->getRequest()->get('key'), 'action' => Qualityunit_Liveagent_Block_AccountConnect::CONNECT_ACCOUNT_ACTION_FLAG)));
 		$this->assignVariable('resetUrl', $this->getUrl('*/*/index', array('key' => $this->getRequest()->get('key'), 'action' => Qualityunit_Liveagent_Block_AccountConnect::RESET_SETTINGS_ACTION_FLAG)));
+		//$this->assignVariable('checkMultistore', $this->getUrl('*/system_config/edit/section/liveagent_config'));
 
 		$this->prepareWidgetsBox($settings);
 
@@ -91,6 +93,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 			    }
 			}
 
+			$buttonIsSet = false;
 			foreach ($widgetsArray as $widget) {
 				$result = '<div class="widgetTitle">' . $widget->name . ':</div>';
 				$result .= '<div class="widgetDisplay"><iframe frameborder="0" id="iFramePreview' . $widget->contactwidgetid . '" width="100%" height="100%" style="background-color: white"><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>' . $widget->name . '</title></head><body></body></html></iframe></div>';
@@ -122,6 +125,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 					$result .= '<div onclick="jQuery(function($) {$.fn.setButton(\'' . $widget->contactwidgetid . '\')})" class="widgetSetButton">{useThisButton}</div>';
 				}
 				else {
+				    $buttonIsSet = true;
 				    $result .= '<span class="inUseLabel">{inUse}</span>';
 				}
 
@@ -133,21 +137,31 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 					</script>';
 			}
 
-			$this->assignVariable('widgetsHTML', '<div class="widgetsContainer">' . $widgetsHTML . '</div>');
+			$notice = '';
+			if (!$buttonIsSet) {
+			    $notice = '<div class="notice">Please choose a button</div>';
+			}
+
+			$this->assignVariable('widgetsHTML', $notice.'<div class="widgetsContainer">' . $widgetsHTML . '</div>');
 		} catch (Qualityunit_Liveagent_Exception_ConnectFailed $e) {
 			$this->assignVariable('widgetsHTML', '<div class="widgetsContainer">{errorOccurred}' . $e->getMessage() . "</div>\n");
 		}
 	}
 
 	private function getLoginUrl(Qualityunit_Liveagent_Helper_Settings $settings) {
-		return $settings->getLiveAgentUrl() . 'agent/index.php?AuthToken=' . $settings->getOwnerAuthToken();
+		return $settings->getLiveAgentUrl() . 'agent/index.php';
+	}
+
+	private function getAuthToken(Qualityunit_Liveagent_Helper_Settings $settings) {
+	    return $settings->getOwnerAuthToken();
 	}
 
 	protected function getTemplateString() {
-		return '
-		<form id="configForm" name="edit_form" action="{saveUrlAction}" method="post">
+		return '<form id="configForm" name="edit_form" action="{saveUrlAction}" method="post">
 		<input name="form_key" type="hidden" value="{formKey}" />
 		<input name="action" type="hidden" value="{saveButtonCodeFlag}"/>
+		<input name="token" id="token" type="hidden" value="{AuthToken}"/>
+		<input name="loginUrl" id="loginUrl" type="hidden" value="{loginUrl}" />
 		<div class="content-header">
 			<table cellspacing="0">
 				<tbody><tr>
@@ -170,8 +184,8 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 							</td>
 							<td class="scope-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 							<td class="value" style="text-align: center">
-								<div id="connectButtonmain" class="ImLeButtonMain1 buttonBgColor buttonBorderColor createButton" tabindex="0">
-									<span onclick="window.open(\'{loginUrl}\', \'_blank\')" class="buttonText">{loginLabel}</span>
+								<div id="loginButton" class="ImLeButtonMain1 buttonBgColor buttonBorderColor createButton" tabindex="0">
+									<span class="buttonText">{loginLabel}</span>
 								</div>
 							</td>
 							<td class="scope-label"></td><td></td>
@@ -190,8 +204,8 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 					<input onclick="jQuery(function($) {$(\'#configForm\').submit()})" type="checkbox" id="displayInAdmin" value="1" name="displayInAdmin" {displayInAdminChecked}> <label for="la-config-button-options"><strong>{displayInAdminPanel}</strong></label>
 		        </div>
 				<div class="formFooter">
-					<div id="connectButtonmain" class="ImLeButtonMain1 buttonBgColor buttonBorderColor createButton" tabindex="0">
-						<span onclick="window.open(\'{loginUrl}\', \'_blank\')" class="buttonText">{addMoreButtons}</span>
+					<div id="addMoreButtons" class="ImLeButtonMain1 buttonBgColor buttonBorderColor createButton" tabindex="0">
+						<span class="buttonText">{addMoreButtons}</span>
 					</div>
 					<span class="LaSignupFormDesc1">{LaSignupFormDesc} {la-url}</span>
 				</div>
@@ -206,7 +220,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 							<td class="label"><label for="la-config-button-code">{buttonCodeLabel}:</label></td>
 							<td class="value">{la-config-button-code}
 							  <input type="hidden" value="{buttonId}" name="buttonId" id="buttonId">
-							<p class="note"><span>{buttonCodeHelp}</span></p>
+							<p class="note" style="width: inherit;">{buttonCodeHelp}</p>
 							</td>
 							<td class="scope-label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 							<td class="value configOptions">
@@ -214,7 +228,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 							<input type="checkbox" id="configOptionName" value="1" name="configOptionName" {configOptionNameChecked}> {customer} {name}<br />
 							<input type="checkbox" id="configOptionEmail" value="2" name="configOptionEmail" {configOptionEmailChecked}> {customer} {email}<br />
 							<input type="checkbox" id="configOptionPhone" value="3" name="configOptionPhone" {configOptionPhoneChecked}> {customer} {phone}<br />
-							<p class="note" style="margin-top:1em"><span>{configOptionsHelp}</span></p>
+							<p class="note" style="margin-top:1em;width: inherit;">{configOptionsHelp}</p>
 							</td>
 						</tr>
 						<tr>

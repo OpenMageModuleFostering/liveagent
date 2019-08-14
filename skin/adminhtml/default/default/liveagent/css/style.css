@@ -349,7 +349,8 @@ h3.head-promo-catalog {background-image: url("la_logo.svg");height: 52px;text-in
 .form-list td.label label{width: 240px;}
 .form-list p.note {color: grey;}
 .inUseLabel {width: 100px;display: block;height: 20px;margin: 3px auto 0px;background: transparent url("ok_icon.png") no-repeat scroll left -1px / 20px 20px;}
-.displayInAdminCheckbox {display: block; float: left; clear: both}
+.displayInAdminCheckbox {display: block;float: left; clear: both}
+.notice {color: #FF0000;font-size: larger;font-weight: bold;padding: 1em;border: 1px solid #FF0000;margin-bottom: 1em;background-color: #f5dcdc;}
 
 #resetLink {text-align: right; font-style: italic; float: right; margin: 0}
 #resetLink:hover {cursor:pointer; color:#ea7601}
