@@ -17,7 +17,7 @@ class Qualityunit_Liveagent_Helper_Signup extends Qualityunit_Liveagent_Helper_B
 		$request->addParam('name', $name);
 		$request->addParam('email', $email);
 		$request->addParam('password', $password);
-		$request->addParam('variationid', '00198b52');
+		$request->addParam('variationid', '3513230f');
 		$request->addParam('PAPvisitorId', $papVisitorId);
 		$request->addParam('source', 'magento');
 		$request->sendNow();

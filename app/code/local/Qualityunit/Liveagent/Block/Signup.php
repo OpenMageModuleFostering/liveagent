@@ -6,11 +6,11 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 
 	public function _prepareLayout() {
 		parent::_prepareLayout();
-		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Free live chat and helpdesk plugin for Magento'));
+		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Live chat and helpdesk plugin for Magento'));
 		$this->assignVariable(self::FULL_NAME_FIELD, $this->getInputBox(self::FULL_NAME_FIELD, $this->getOwnerName()));
 		$this->assignVariable(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $this->getInputBox(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $this->getOwnerEmail()));
 		$this->assignVariable(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, $this->getInputBox(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, $this->getdomainOnly()));
-		$this->assignVariable('submitCaption', Mage::helper('adminhtml')->__('Create your Free account'));
+		$this->assignVariable('submitCaption', Mage::helper('adminhtml')->__('Create your trial account'));
 		$this->assignVariable('skipUrlAction', $this->getUrl('*/*/index', array('key' => $this->getRequest()->get('key'), 'action' => Qualityunit_Liveagent_Block_Account::CREATE_ACCOUNT_ACTION_FLAF)));
 		$this->assignVariable('registerUrlAction', $this->getUrl('*/*/post'));
 		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());
@@ -23,7 +23,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 		$this->assignVariable('termsLink', Mage::helper('adminhtml')->__('Terms & Conditions'));
 		$this->assignVariable('skipLink', Mage::helper('adminhtml')->__('Skip this step, I already have an account'));
 		$this->assignVariable('settingsSection', Mage::helper('adminhtml')->__('New account'));
-		$this->assignVariable('pluginHelpText', Mage::helper('adminhtml')->__('We want you to enjoy the full functionality of LiveAgent with the free account. It does not limit the number of agents and you have the option to activate the most of available features.'));
+		$this->assignVariable('pluginHelpText', Mage::helper('adminhtml')->__('We want you to enjoy the full functionality of LiveAgent with the trial account. It does not limit the number of agents and you have the option to activate the most of available features.'));
 	}
 
 	private function getdomainOnly() {

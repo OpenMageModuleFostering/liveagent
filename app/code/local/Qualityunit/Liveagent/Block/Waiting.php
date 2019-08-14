@@ -2,7 +2,7 @@
 class Qualityunit_Liveagent_Block_Waiting extends Qualityunit_Liveagent_Block_Base {
 	protected function _prepareLayout() {
 		parent::_prepareLayout();
-		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Free live chat and helpdesk plugin for Magento'));
+		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Live chat and helpdesk plugin for Magento'));
 		$this->assignVariable('sectionCaption', Mage::helper('adminhtml')->__('Account Installation'));
 		$this->assignVariable('completeUrlAction', $this->getUrl('*/*/post'));
 		$this->assignVariable('installingText', Mage::helper('adminhtml')->__('Thank you! Your account will be online within next few minutes. Please wait...'));

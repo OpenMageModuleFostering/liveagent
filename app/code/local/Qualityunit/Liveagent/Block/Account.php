@@ -9,7 +9,7 @@ class Qualityunit_Liveagent_Block_Account extends Qualityunit_Liveagent_Block_Ba
 
 	public function _prepareLayout() {
 		parent::_prepareLayout();
-		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Free live chat and helpdesk plugin for Magento'));
+		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Live chat and helpdesk plugin for Magento'));
 		$this->assignVariable('submitCaption', Mage::helper('adminhtml')->__('Save Account Settings'));
 		$this->assignVariable('settingsSection', Mage::helper('adminhtml')->__('Account Settings'));
 		$this->assignVariable('beforeDeleteQuestion', Mage::helper('adminhtml')->__('Are you sure you want to cancel your account?'));
@@ -23,7 +23,7 @@ class Qualityunit_Liveagent_Block_Account extends Qualityunit_Liveagent_Block_Ba
 		$this->assignVariable('nameLabel', Mage::helper('adminhtml')->__('Username')) . ':';		
 		$this->assignVariable('passwordLabel', Mage::helper('adminhtml')->__('Password')) . ':';
 		$this->assignVariable('cancelLink', Mage::helper('adminhtml')->__('Cancel account'));
-		$this->assignVariable('cancelHelp', Mage::helper('adminhtml')->__('this will clear all your existing account settings and offer you to create a new free account'));
+		$this->assignVariable('cancelHelp', Mage::helper('adminhtml')->__('this will clear all your existing account settings and offer you to create a new trial account'));
 		$this->assignVariable('contactLink', Mage::helper('adminhtml')->__('contact us'));
 		$this->assignVariable('contactHelp', Mage::helper('adminhtml')->__('Do you need any help with this plugin? Feel free to'));
 		$this->assignVariable(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, $this->getInputBox(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, ''));

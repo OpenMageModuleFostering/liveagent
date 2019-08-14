@@ -7,7 +7,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 	public function _prepareLayout() {
 		$settings = new Qualityunit_Liveagent_Helper_Settings();
 		parent::_prepareLayout();
-		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Free live chat and helpdesk plugin for Magento'));
+		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Live chat and helpdesk plugin for Magento'));
 		$this->assignVariable('submitCaption', Mage::helper('adminhtml')->__('Save'));
 		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());
 		$this->assignVariable('saveUrlAction', $this->getUrl('*/*/post'));
