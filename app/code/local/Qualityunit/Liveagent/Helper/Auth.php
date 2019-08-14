@@ -25,9 +25,9 @@ class Qualityunit_Liveagent_Helper_Auth extends Qualityunit_Liveagent_Helper_Bas
 		}
 	}
 	
-	public function getauthTokenByApi($url, $apiKey) {
+	public function getauthTokenByApi($url, $apiKey, $ownerEmail) {
 	    $url = $this->getRemoteApiUrl($url);
-	    $url .= '?handler=agents/' . urlencode($this->settingsModel->getOwnerEmail()) . '&apikey=' . $apiKey;
+	    $url .= '?handler=agents/' . urlencode($ownerEmail) . '&apikey=' . $apiKey;
 	    
 	    $ch = curl_init();
 	    curl_setopt($ch,CURLOPT_URL, $url);
@@ -88,4 +88,3 @@ class Qualityunit_Liveagent_Helper_Auth extends Qualityunit_Liveagent_Helper_Bas
 		return $request->getData();
 	}
 }
-

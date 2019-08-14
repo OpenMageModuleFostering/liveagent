@@ -77,9 +77,10 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 			}
 			if ($this->settings->useApiKey()) {
 			    try {
-			        $token = $auth->getauthTokenByApi($post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME], $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME]);
+			        $token = $auth->getauthTokenByApi($post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME], $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME], $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME]);
 			        $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, $token);
 			    } catch (Qualityunit_Liveagent_Exception_ConnectProblem $e) {
+			        Mage::log('Unable to connect to LA: ' . $e->getMessage(), Zend_log::ERR);
 			    }
 			    if ($token == null) {
 			        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to login to LiveAgent with given credentails. Please check your url, username and api key.') . ' ' . $this->getAccountSettingsChangeRevertLink());

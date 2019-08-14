@@ -62,7 +62,7 @@ class Qualityunit_Liveagent_Helper_Settings {
 		$auth = new Qualityunit_Liveagent_Helper_Auth();
 	    if ($this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY) == 'Y') {
 	        //use api and fetch auth token
-	        $token = $auth->getauthTokenByApi(null , $this->getOwnerPassword());
+	        $token = $auth->getauthTokenByApi(null , $this->getOwnerPassword(), $this->getOwnerEmail());
 	        $this->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, $token);
 	        return $token;
 	    }
