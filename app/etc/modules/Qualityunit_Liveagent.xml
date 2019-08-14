@@ -4,7 +4,7 @@
         <Qualityunit_Liveagent>
             <active>true</active>
             <codePool>local</codePool>
-            <version>3.0.7</version>
+            <version>3.1.0</version>
         </Qualityunit_Liveagent>
     </modules>
 </config> 

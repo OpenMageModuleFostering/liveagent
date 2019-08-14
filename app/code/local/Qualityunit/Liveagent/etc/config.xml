@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Qualityunit_Liveagent>
-			<version>3.0.7</version>
+			<version>3.1.0</version>
 		</Qualityunit_Liveagent>
 	</modules>
 	<frontend>
@@ -66,6 +66,17 @@
 							<title>Liveagent Module</title>
 							<sort_order>10</sort_order>
 						</Qualityunit_Liveagent>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <liveagent_config>
+                      <title>LiveAgent multistore config</title>
+                    </liveagent_config>
+                  </children>
+                </config>
+              </children>
+            </system>
 					</children>
 				</admin>
 			</resources>
@@ -80,6 +91,13 @@
             </modules>
         </translate>
 	</adminhtml>
+  <default>
+    <liveagent>
+      <widgetdisplay>
+        <addtostore>1</addtostore>
+      </widgetdisplay>
+    </liveagent>
+  </default>
 	<global>
 		<models>
 			<liveagent>
