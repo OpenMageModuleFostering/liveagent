@@ -34,7 +34,7 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		->_addBreadcrumb(Mage::helper('adminhtml')->__('Account'), Mage::helper('adminhtml')->__('Settings'));
 	}
 
-	private function doAfterPost($params = array()) {
+	private function doAfterPost($params = array()) {		
 		$this->_redirect('*/*', $params);
 	}
 
@@ -47,12 +47,11 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		if ($post['action']=="r") {
 			try {
 				$this->validateSignupMail($post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME]);
-				$this->validateSubdomain($post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME]);
 				$this->registerAccountAction(
 						$post[Qualityunit_Liveagent_Block_Signup::FULL_NAME_FIELD],
 						$post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME],
 						$post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME],
-						md5(rand(90000,99999) . microtime() . rand(90000,99999)),
+						substr(md5(microtime()),0,8),
 						''
 				);
 			} catch (Qualityunit_Liveagent_Exception_SignupFailed $e) {
@@ -62,7 +61,7 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 			$this->doAfterPost();
 			return;
 		}
-		if ($post['action']==Qualityunit_Liveagent_Block_Account::SAVE_ACCOUNT_SETTINGS_ACTION_FLAG) {
+		if ($post['action']==Qualityunit_Liveagent_Block_Account::SAVE_ACCOUNT_SETTINGS_ACTION_FLAG) {			
 			if (!$this->checkAccountSettings($post)) {
 				$this->doAfterPost($this->getAccountSettingsPost($post));
 				return;
@@ -74,36 +73,21 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 				Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to connect to LiveAgent at') . ' ' . $post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME] . '. ' . $this->getAccountSettingsChangeRevertLink());
 				$this->doAfterPost($this->getAccountSettingsPost($post));
 				return;
-			}
-			if ($this->settings->useApiKey()) {
-			    try {
-			        $token = $auth->getauthTokenByApi($post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME], $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME], $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME]);
-			        $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, $token);
-			    } catch (Qualityunit_Liveagent_Exception_ConnectProblem $e) {
-			        Mage::log('Unable to connect to LA: ' . $e->getMessage(), Zend_log::ERR);
-			    }
-			    if ($token == null) {
-			        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to login to LiveAgent with given credentails. Please check your url, username and api key.') . ' ' . $this->getAccountSettingsChangeRevertLink());
-			        $this->doAfterPost($this->getAccountSettingsPost($post));
-			        return;
-			    }
-			} else {
-    			try {
-    				$auth->LoginAndGetLoginData($post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME],
-    						$post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME],
-    						$post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME]);
-    			} catch (Qualityunit_Liveagent_Exception_ConnectProblem $e) {
-    				Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to login to LiveAgent with given credentails. Please check your username and password.') . ' ' . $this->getAccountSettingsChangeRevertLink());
-    				$this->doAfterPost($this->getAccountSettingsPost($post));
-    				return;
-    			}
-			}
-			
-			$this->saveAccountSettings($post, $token);
+			}			
+			try {
+				$auth->LoginAndGetLoginData($post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME],
+						$post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME],
+						$post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME]);
+			} catch (Qualityunit_Liveagent_Exception_ConnectProblem $e) {
+				Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Unable to login to LiveAgent with given credentails. Please check your username and password.') . ' ' . $this->getAccountSettingsChangeRevertLink());				
+				$this->doAfterPost($this->getAccountSettingsPost($post));
+				return;
+			}	
+			$this->saveAccountSettings($post);
 			if (!$this->isSetStatus()) {
 				$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, Qualityunit_Liveagent_Helper_Base::ACCOUNT_STATUS_SET);
 			}
-			Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Account settings were saved successfully'));
+			Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Account settings were saved successfully'));			
 		}
 		if ($post['action']==Qualityunit_Liveagent_Block_Buttoncode::SAVE_BUTTON_CODE_ACTION_FLAG) {
 			$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::BUTTON_CODE,
@@ -126,12 +110,6 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 				);
 	}
 
-	private function validateSubdomain($subdomain) {
-	    if (0 == preg_match('/^[a-z0-9-]{3,}$/', $subdomain)) {
-	        throw new Qualityunit_Liveagent_Exception_SignupFailed(Mage::helper('adminhtml')->__('Please enter valid subdomain name'));
-	    }
-	}
-	
 	private function validateSignupMail($mail) {
 		if (!Zend_Validate::is($mail, 'EmailAddress')) {
 			throw new Qualityunit_Liveagent_Exception_SignupFailed(Mage::helper('adminhtml')->__('Please enter valid email address'));
@@ -175,25 +153,17 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		return true;
 	}
 
-	private function saveAccountsettings($post, $token = null) {
+	private function saveAccountsettings($post) {
 		$oldUrl = $this->settings->getOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME]);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME, $post[Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME]);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, $post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME]);
-		if ($this->settings->useApiKey() && $token != '') {
-		    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN. $token);
-		} else {
-		    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, '');
-		}
+		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, '');
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_SESSIONID, '');
 		if ($oldUrl == $post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME]) {
 			return;
 		}
-		if ($this->settings->useApiKey()) {
-		    
-		} else {
-		      $this->settings->saveDefaultButtonCode();
-		}
+		$this->settings->saveDefaultButtonCode();
 	}
 
 	public function indexAction() {
@@ -271,7 +241,7 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		}
 	}
 
-	private function renderAccountDialog() {
+	private function renderAccountDialog() {		
 		if ($this->isSetStatus() && Qualityunit_Liveagent_Helper_Account::isOnline()) {
 			$this->checkButtonCodeIsEmpty();
 			$block = new Qualityunit_Liveagent_Block_Buttoncode();
@@ -299,7 +269,6 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 	}
 
 	private function resetAccountAction() {
-	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY, 'Y');
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, Qualityunit_Liveagent_Helper_Base::ACCOUNT_STATUS_NOTSET);
 	}
 
@@ -310,7 +279,11 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		} catch (Qualityunit_Liveagent_Exception_Base $e) {
 			throw new Qualityunit_Liveagent_Exception_SignupFailed($e->getMessage());
 		}
-		Mage::log("Signup response recieved: " . print_r($response, true), Zend_log::DEBUG);
+		Mage::log("Signup response recieved:" . print_r($response, true), Zend_log::DEBUG);
+		if ($response->success != "Y") {
+			Mage::log("Response contain error:" . $response->errorMessage, Zend_log::DEBUG);
+			throw new Qualityunit_Liveagent_Exception_SignupFailed($response->errorMessage);
+		}
 		Mage::log("Response OK", Zend_log::DEBUG);
 	}
 
@@ -319,15 +292,11 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME, 'http://' . $domain . '.ladesk.com');
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $email);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME, $password);
-		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY, 'Y');
-		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, '');
-		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_SESSIONID, '');
 		$this->settings->saveDefaultButtonCode();
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, Qualityunit_Liveagent_Helper_Base::ACCOUNT_STATUS_WAIT);
 	}
 
 	private function skipWaitAction() {
-	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY, 'Y');
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, Qualityunit_Liveagent_Helper_Base::ACCOUNT_STATUS_SET);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_NOT_REACHABLE_TIMES, 0);
 	}

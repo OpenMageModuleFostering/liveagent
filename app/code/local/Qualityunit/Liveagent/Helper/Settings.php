@@ -26,7 +26,6 @@ class Qualityunit_Liveagent_Helper_Settings {
 
 	const LA_URL_SETTING_NAME = 'la-url';
 	const LA_OWNER_EMAIL_SETTING_NAME = 'la-owner-email';
-	const LA_USE_API_KEY = 'la-use-api-key';
 	const LA_OWNER_PASSWORD_SETTING_NAME = 'la-owner-password';
 	const GENERAL_SETTINGS_PAGE_STATE_SETTING_NAME = 'general-settings-state';
 
@@ -60,15 +59,7 @@ class Qualityunit_Liveagent_Helper_Settings {
 
 	public function login() {
 		$auth = new Qualityunit_Liveagent_Helper_Auth();
-	    if ($this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY) == 'Y') {
-	        //use api and fetch auth token
-	        $token = $auth->getauthTokenByApi(null , $this->getOwnerPassword(), $this->getOwnerEmail());
-	        $this->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, $token);
-	        return $token;
-	    }
-	    
-		
-	    $loginData = $auth->LoginAndGetLoginData();
+		$loginData = $auth->LoginAndGetLoginData();
 		try {
 		 $sessionId = $loginData->getValue('session');
 		 $this->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_SESSIONID, $sessionId);
@@ -97,10 +88,6 @@ class Qualityunit_Liveagent_Helper_Settings {
 		return $url;
 	}
 
-	public function useApiKey() {
-	    return $this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY) == 'Y';
-	}
-	
 	public function getOwnerEmail() {
 		return $this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME);
 	}
@@ -122,13 +109,10 @@ class Qualityunit_Liveagent_Helper_Settings {
 
 	public function saveButtonCodeForButtonId($buttonid) {
 		$url = $this->getLiveAgentUrl();
-		$this->setOption(self::BUTTON_CODE, "
-				<script type=\"text/javascript\">
-(function(d, src, c) { var t=d.scripts[d.scripts.length - 1],s=d.createElement('script');s.id='la_x2s6df8d';s.async=true;s.src=src;s.onload=s.onreadystatechange=function(){var rs=this.readyState;if(rs&&(rs!='complete')&&(rs!='loaded')){return;}c(this);};t.parentElement.insertBefore(s,t.nextSibling);})(document,
-'//latrialtst456466.ladesk.com/scripts/track.js',
-function(e){});
-</script>
-				");
+		$this->setOption(self::BUTTON_CODE, '
+				<script type="text/javascript" id="la_x2s6df8d" src="'.$url.'/scripts/trackjs.php"></script>
+				<img src="//support.qualityunit.com/scripts/pix.gif" onLoad="LiveAgentTracker.createButton(\''.$buttonid.'\', this);"/>
+				');
 	}
 
 	public function getOption($name) {
@@ -144,3 +128,4 @@ function(e){});
 		return $this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME) == '' && $this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME) == '';
 	}
 }
+?>

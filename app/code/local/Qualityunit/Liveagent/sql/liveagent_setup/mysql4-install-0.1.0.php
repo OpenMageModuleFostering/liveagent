@@ -28,7 +28,7 @@ $installer->run("
 		CREATE TABLE {$this->getTable('liveagentsettings')} (
 		`id` int(11) unsigned NOT NULL auto_increment,
 		`name` varchar(255) NOT NULL,
-		`value` text DEFAULT NULL,
+		`value` varchar(255) DEFAULT NULL,
 		PRIMARY KEY (`id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		INSERT INTO  {$this->getTable('liveagentsettings')} (`name` ,`value`) VALUES ('la-settings_accountstatus',  'N');

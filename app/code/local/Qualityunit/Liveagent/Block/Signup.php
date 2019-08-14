@@ -29,10 +29,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 	private function getdomainOnly() {
 		$domain = preg_replace('/^(.*\.)?([^.]*\..*)$/', '$2', @$_SERVER['HTTP_HOST']);
 		if (trim($domain) == 'localhost') {
-			return '';
-		}
-		if (preg_match('/^[a-zA-Z0-9\-]+$/', $domain) === false) {
-		    return '';
+			return strtolower(str_replace(' ', '', $this->getOwnerName())) . rand(100, 5000);
 		}
 		return $domain;
 	}
@@ -60,7 +57,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 	protected function getTemplateString() {
 		return '
 		<script type="text/javascript">
-        	var skipCreate = function() {
+        	var skipCreate = function() {				
 					setLocation(\'{skipUrlAction}\')
 			}
 		</script>
@@ -71,15 +68,15 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
     		<table cellspacing="0">
         		<tbody><tr>
             		<td style="width:50%;"><h3 class="icon-head head-promo-catalog">{dialogCaption}</h3></td>
-            		<td class="form-buttons"><button id="id_5806f3a306fa79f4340cb58c1d190ff5" type="button" class="scalable save" onclick="configForm.submit()" style=""><span>{submitCaption}</span></button></td>
-        			</tr>
+            		<td class="form-buttons"><button id="id_5806f3a306fa79f4340cb58c1d190ff5" type="button" class="scalable save" onclick="configForm.submit()" style=""><span>{submitCaption}</span></button></td>            
+        			</tr>        			
     			</tbody>
-    		</table>
+    		</table>    		    	
 		</div>
 		<div class="entry-edit">
 			<fieldset>
 				{pluginHelpText}
-			</fieldset>
+			</fieldset>			
 		</div>
 		<div class="entry-edit">
         	<div class="entry-edit-head"><h4>{settingsSection}</h4></div>
@@ -112,13 +109,13 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
             			<tr>
             				<td colspan="4" class="scope-label"></td>
             			</tr>
-            			<tr>
+            			<tr>            				
             				<td colspan="4" class="scope-label"><button onclick="skipCreate()" type="button" class="scalable "><span>{skipLink}</span></button></td>
             			</tr>
             		</tbody>
             	</table>
             </fieldset>
-        </div>
+        </div>			
 	';
 	}
 }

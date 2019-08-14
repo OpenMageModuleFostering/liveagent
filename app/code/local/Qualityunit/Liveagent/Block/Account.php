@@ -9,7 +9,6 @@ class Qualityunit_Liveagent_Block_Account extends Qualityunit_Liveagent_Block_Ba
 
 	public function _prepareLayout() {
 		parent::_prepareLayout();
-		$settings = new Qualityunit_Liveagent_Helper_Settings();
 		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Free live chat and helpdesk plugin for Magento'));
 		$this->assignVariable('submitCaption', Mage::helper('adminhtml')->__('Save Account Settings'));
 		$this->assignVariable('settingsSection', Mage::helper('adminhtml')->__('Account Settings'));
@@ -20,15 +19,9 @@ class Qualityunit_Liveagent_Block_Account extends Qualityunit_Liveagent_Block_Ba
 		$this->assignVariable('urlLabel', Mage::helper('adminhtml')->__('Url')) . ':';
 		$this->assignVariable('urlHelp', Mage::helper('adminhtml')->__('Url where your LiveAgent installation is located'));
 		$this->assignVariable('laOwnerEmailHelp', Mage::helper('adminhtml')->__('Username which you use to login to your Live Agnet'));
-		$this->assignVariable('nameLabel', Mage::helper('adminhtml')->__('Username')) . ':';
-	    if ($settings->useApiKey()) {
-	        $this->assignVariable('passwordLabel', Mage::helper('adminhtml')->__('Api key')) . ':';
-	        $this->assignVariable('laOwnerPasswordHelp', Mage::helper('adminhtml')->__('Your REST api key'));
-	    } else {
-		  $this->assignVariable('passwordLabel', Mage::helper('adminhtml')->__('Password')) . ':';
-		  $this->assignVariable('laOwnerPasswordHelp', Mage::helper('adminhtml')->__('Your password'));
-	    }
-		
+		$this->assignVariable('laOwnerPasswordHelp', Mage::helper('adminhtml')->__('Your password'));
+		$this->assignVariable('nameLabel', Mage::helper('adminhtml')->__('Username')) . ':';		
+		$this->assignVariable('passwordLabel', Mage::helper('adminhtml')->__('Password')) . ':';
 		$this->assignVariable('cancelLink', Mage::helper('adminhtml')->__('Cancel account'));
 		$this->assignVariable('cancelHelp', Mage::helper('adminhtml')->__('this will clear all your existing account settings and offer you to create a new free account'));
 		$this->assignVariable('contactLink', Mage::helper('adminhtml')->__('contact us'));
@@ -39,7 +32,7 @@ class Qualityunit_Liveagent_Block_Account extends Qualityunit_Liveagent_Block_Ba
 		$this->assignVariable('saveActionSettingsFlag', self::SAVE_ACCOUNT_SETTINGS_ACTION_FLAG);
 	}
 
-	protected function getPasswordBox($name, $value) {
+	protected function getPasswordBox($name, $value) {		
 		$params = $this->getRequest()->getParams();
 		if (isset($params[$name])) {
 			return parent::getPasswordBox($name, base64_decode(trim($this->getRequest()->getParam($name))));
