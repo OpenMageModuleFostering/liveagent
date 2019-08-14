@@ -24,12 +24,42 @@ class Qualityunit_Liveagent_Helper_Auth extends Qualityunit_Liveagent_Helper_Bas
 			throw new Qualityunit_Liveagent_Exception_ConnectProblem($e->getMessage());
 		}
 	}
-
+	
+	public function getauthTokenByApi($url, $apiKey) {
+	    $url = $this->getRemoteApiUrl($url);
+	    $url .= '?handler=agents/' . urlencode($this->settingsModel->getOwnerEmail()) . '&apikey=' . $apiKey;
+	    
+	    $ch = curl_init();
+	    curl_setopt($ch,CURLOPT_URL, $url);
+	    curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+	    $this->_log('Fetching user auth info from api url: ' . $url);
+	    $curl_response=curl_exec($ch);
+	    if ($curl_response === false) {
+	        $info = curl_getinfo($ch);
+	        curl_close($ch);
+	        $this->_log('Error calling API request: ' . var_export($info, true));
+	        return '';
+	    }
+	    $info = curl_getinfo($ch);
+	    curl_close($ch);
+	    $decodedResponse = json_decode($curl_response);
+	    if (!isset($decodedResponse->response)) {
+	        $this->_log('Error decoding API response: ' . $curl_response . ', info: ' . var_export($info, true));
+	        return '';
+	    }
+	    if ($info['http_code'] != 200) {
+	        $this->_log('API response returned error: ' . $curl_response . ', info: ' . var_export($info, true));
+	        return '';
+	    }
+	    return $decodedResponse->response->authtoken;
+	}
+	
 	/**
 	 * @return La_Rpc_Data
 	 */
 	public function LoginAndGetLoginData($url = null, $username = null, $password = null) {
 		$url = $this->getRemoteApiUrl($url);
+		
 		$request = new La_Rpc_DataRequest("Gpf_Api_AuthService", "authenticate");
 
 		if ($username == null) {

@@ -7,7 +7,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 	public function _prepareLayout() {
 		$settings = new Qualityunit_Liveagent_Helper_Settings();
 		parent::_prepareLayout();
-		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Live chat and helpdesk plugin for Magento'));
+		$this->assignVariable('dialogCaption', Mage::helper('adminhtml')->__('LiveAgent - Free live chat and helpdesk plugin for Magento'));
 		$this->assignVariable('submitCaption', Mage::helper('adminhtml')->__('Save'));
 		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());
 		$this->assignVariable('saveUrlAction', $this->getUrl('*/*/post'));
@@ -18,7 +18,7 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 		$this->assignVariable('buttonCodeHelp', Mage::helper('adminhtml')->__('Place here the code from your LiveAgent admin panel'));
 		$this->assignVariable('saveButtonCodeFlag', self::SAVE_BUTTON_CODE_ACTION_FLAG);
 		$this->assignVariable('accountSectionLabel', Mage::helper('adminhtml')->__('Your account'));
-		$this->assignVariable('accountUrlLabel', Mage::helper('adminhtml')->__('Account url'));		
+		$this->assignVariable('accountUrlLabel', Mage::helper('adminhtml')->__('Account url'));
 		$this->assignVariable('la-url', $settings->getOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME));
 		$this->assignVariable('loginLabel', Mage::helper('adminhtml')->__('login'));
 		$this->assignVariable('loginUrl', $this->getLoginUrl($settings));
@@ -30,15 +30,19 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
 	}
 	
 	private function getLoginUrl(Qualityunit_Liveagent_Helper_Settings $settings) {
-		$authToken = $settings->getOwnerAuthToken();
+	    try {
+		    $authToken = $settings->getOwnerAuthToken();
+	    } catch (Exception $e) {
+	        $authToken = '';
+	    }
 		if ($authToken == '') {
-			$sessionId = $settingsgetOwnerSessionId();
+			$sessionId = $settings->getOwnerSessionId();
 			if ($sessionId != '') {
-				return $settings->getLiveAgentUrl() . '/agent?S='.$settings->getOwnerSessionId();
+				return $settings->getLiveAgentUrl() . '/agent/index.php?S='.$settings->getOwnerSessionId();
 			}
-			return $settings->getLiveAgentUrl() . '/agent';
+			return $settings->getLiveAgentUrl() . '/agent/index.php';
 		}
-		return $settings->getLiveAgentUrl() . '/agent?AuthToken='.$authToken;
+		return $settings->getLiveAgentUrl() . '/agent/index.php?AuthToken='.$authToken;
 	}
 
 	protected function getTemplateString() {
@@ -50,16 +54,16 @@ class Qualityunit_Liveagent_Block_Buttoncode extends Qualityunit_Liveagent_Block
     		<table cellspacing="0">
         		<tbody><tr>
             		<td style="width:50%;"><h3 class="icon-head head-promo-catalog">{dialogCaption}</h3></td>
-            		<td class="form-buttons"><button id="id_5806f3a306fa79f4340cb58c1d190ff5" type="button" class="scalable save" onclick="configForm.submit()" style=""><span>{submitCaption}</span></button></td>            
-        			</tr>        			
+            		<td class="form-buttons"><button id="id_5806f3a306fa79f4340cb58c1d190ff5" type="button" class="scalable save" onclick="configForm.submit()" style=""><span>{submitCaption}</span></button></td>
+        			</tr>
     			</tbody>
-    		</table>    		    	
+    		</table>
 		</div>
 		<div class="entry-edit">
 			<fieldset>
 				{contactHelp}&nbsp;<a href="http://support.qualityunit.com/submit_ticket" target="_blank">{contactLink}</a>.
-			</fieldset>			
-		</div> 
+			</fieldset>
+		</div>
 		<div class="entry-edit">
         	<div class="entry-edit-head"><h4>{accountSectionLabel}</h4></div>
             <fieldset>
