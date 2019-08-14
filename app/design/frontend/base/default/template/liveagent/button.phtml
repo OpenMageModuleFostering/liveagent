@@ -1,0 +1,6 @@
+<?php
+$setting = Mage::getModel('liveagent/settings')->load('la-config-button-code', 'name');
+if ($setting->getValue() != '') {
+	echo $setting->getData('value');
+} 
+?>

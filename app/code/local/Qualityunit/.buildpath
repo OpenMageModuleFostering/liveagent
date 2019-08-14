@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="src" path="Liveagent/Model"/>
+	<buildpathentry kind="src" path="Liveagent/Block"/>
+	<buildpathentry kind="src" path="Liveagent/Helper"/>
+	<buildpathentry kind="src" path="Liveagent/controllers"/>
+	<buildpathentry kind="src" path="Liveagent/sql/liveagent_setup"/>
+	<buildpathentry combineaccessrules="false" kind="prj" path="/magento"/>
+</buildpath>
