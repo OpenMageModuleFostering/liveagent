@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Qualityunit_Liveagent>
-			<version>3.0.6</version>
+			<version>3.0.7</version>
 		</Qualityunit_Liveagent>
 	</modules>
 	<frontend>
@@ -92,9 +92,6 @@
 					<liveagentsettings>
 						<table>liveagentsettings</table>
 					</liveagentsettings>
-					<liveagentbuttons>
-						<table>liveagentbuttons</table>
-					</liveagentbuttons>
 				</entities>
 			</liveagent_mysql4>
 		</models>
