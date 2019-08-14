@@ -188,7 +188,11 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		if ($oldUrl == $post[Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME]) {
 			return;
 		}
-		$this->settings->saveDefaultButtonCode();
+		if ($this->settings->useApiKey()) {
+		    
+		} else {
+		      $this->settings->saveDefaultButtonCode();
+		}
 	}
 
 	public function indexAction() {
@@ -306,11 +310,6 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 			throw new Qualityunit_Liveagent_Exception_SignupFailed($e->getMessage());
 		}
 		Mage::log("Signup response recieved: " . print_r($response, true), Zend_log::DEBUG);
-		
-// 		if ($response->success != "Y") {
-// 			Mage::log("Response contain error:" . $response->errorMessage, Zend_log::DEBUG);
-// 			throw new Qualityunit_Liveagent_Exception_SignupFailed($response->errorMessage);
-// 		}
 		Mage::log("Response OK", Zend_log::DEBUG);
 	}
 
@@ -320,11 +319,14 @@ class Qualityunit_Liveagent_Adminhtml_LiveagentController extends Mage_Adminhtml
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME, $email);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_PASSWORD_SETTING_NAME, $password);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY, 'Y');
+		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_AUTHTOKEN, '');
+		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::OWNER_SESSIONID, '');
 		$this->settings->saveDefaultButtonCode();
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, Qualityunit_Liveagent_Helper_Base::ACCOUNT_STATUS_WAIT);
 	}
 
 	private function skipWaitAction() {
+	    $this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::LA_USE_API_KEY, 'Y');
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_STATUS, Qualityunit_Liveagent_Helper_Base::ACCOUNT_STATUS_SET);
 		$this->settings->setOption(Qualityunit_Liveagent_Helper_Settings::ACCOUNT_NOT_REACHABLE_TIMES, 0);
 	}

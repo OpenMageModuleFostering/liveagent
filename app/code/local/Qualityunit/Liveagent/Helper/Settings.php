@@ -144,4 +144,3 @@ function(e){});
 		return $this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_URL_SETTING_NAME) == '' && $this->getOption(Qualityunit_Liveagent_Helper_Settings::LA_OWNER_EMAIL_SETTING_NAME) == '';
 	}
 }
-

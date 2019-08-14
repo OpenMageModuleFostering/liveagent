@@ -88,4 +88,4 @@ class Qualityunit_Liveagent_Helper_Auth extends Qualityunit_Liveagent_Helper_Bas
 		return $request->getData();
 	}
 }
-?>
+
