@@ -7,9 +7,12 @@ class Qualityunit_Liveagent_Block_Waiting extends Qualityunit_Liveagent_Block_Ba
 		$this->assignVariable('completeUrlAction', $this->getUrl('*/*/post'));
 		$this->assignVariable('installingText', Mage::helper('adminhtml')->__('Thank you! Your account will be online within next few minutes. Please wait...'));
 		$this->assignVariable('confEmailText', Mage::helper('adminhtml')->__('You should recieve confirmation email with your account credentials shortly.'));
-		$this->assignVariable('bitLongerText', Mage::helper('adminhtml')->__('<i>Note: Sometimes account creation process may take a</i> <a href=\'http://support.qualityunit.com/knowledgebase/live-agent/integration/magento-plugin/frequently-asked-questions.html\' target="_blank">bit longer</a>.'));
-		$this->assignVariable('installText', Mage::helper('adminhtml')->__('Installing...'));
-		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());		
+		$this->assignVariable('bitLongerText', Mage::helper('adminhtml')->__('Note: Sometimes account creation process may take a'));
+		$this->assignVariable('bitLongerLink', Mage::helper('adminhtml')->__('bit longer'));
+		$this->assignVariable('installText', Mage::helper('adminhtml')->__('Installing'));
+		$this->assignVariable('formKey', Mage::getSingleton('core/session')->getFormKey());
+		$this->assignVariable('initializingText', Mage::helper('adminhtml')->__('Initializing...'));
+		
 	}
 
 	protected function getTemplateString() {
@@ -41,24 +44,24 @@ class Qualityunit_Liveagent_Block_Waiting extends Qualityunit_Liveagent_Block_Ba
 	<td	></td>
 	</tr>
 	<tr>
-	<td><div name="liveagent_wait_status" id="liveagent_wait_status" style="padding:10px;">{installText}</div></td>
+	<td><div name="liveagent_wait_status" id="liveagent_wait_status" style="padding:10px;">{installText}...</div></td>
 	</tr>
 	<tr>
 	<td></td>
 	</tr>
 	<tr>
-	<td>{bitLongerText}</td>
+	<td><i>{bitLongerText}</i><a href="http://support.qualityunit.com/knowledgebase/live-agent/integration/magento-plugin/frequently-asked-questions.html" target="_blank">{bitLongerLink}</a></td>
 	</tr>	
 	</tbody>
 	</table>
 	</fieldset>
 	</div>
 	<script type="text/javascript"><!--//--><![CDATA[//><!--
-	setTimeout("document.getElementById(\'liveagent_wait_status\').innerHTML = \'Initializing...\'", 10);
+	setTimeout("document.getElementById(\'liveagent_wait_status\').innerHTML = \'{initializingText}\'", 10);
 	var timer = 3000;
 	var percentage = 4;
 	for (i=0;i<24;i++) {
-	setTimeout("document.getElementById(\'liveagent_wait_status\').innerHTML = \'Installing " + percentage + "% ...\'", timer);
+	setTimeout("document.getElementById(\'liveagent_wait_status\').innerHTML = \'{installText} " + percentage + "% ...\'", timer);
 	timer+=1000;
 	percentage+=4;
 	}

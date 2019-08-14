@@ -23,8 +23,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 		$this->assignVariable('termsLink', Mage::helper('adminhtml')->__('Terms & Conditions'));
 		$this->assignVariable('skipLink', Mage::helper('adminhtml')->__('Skip this step, I already have an account'));
 		$this->assignVariable('settingsSection', Mage::helper('adminhtml')->__('New account'));
-		$this->assignVariable('pluginHelpText', Mage::helper('adminhtml')->__('We want you to enjoy the full functionality of LiveAgent with the free account. It does not limit the number of agents and you have the option to activate the most of available features. The only limitation is max. 50 conversations per month'));
-		$this->assignVariable('pluginHelpLink', Mage::helper('adminhtml')->__('read more'));
+		$this->assignVariable('pluginHelpText', Mage::helper('adminhtml')->__('We want you to enjoy the full functionality of LiveAgent with the free account. It does not limit the number of agents and you have the option to activate the most of available features.'));
 	}
 
 	private function getdomainOnly() {
@@ -76,7 +75,7 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 		</div>
 		<div class="entry-edit">
 			<fieldset>
-				{pluginHelpText}&nbsp;-&nbsp;<a href="http://support.qualityunit.com/671226-Free-account-limitations" target="_blank">{pluginHelpLink}</a>
+				{pluginHelpText}
 			</fieldset>			
 		</div>
 		<div class="entry-edit">

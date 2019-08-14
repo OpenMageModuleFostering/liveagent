@@ -70,6 +70,15 @@
 				</liveagent>
 			</updates>
 		</layout>
+		<translate>
+            <modules>
+                <liveagent>
+                    <files>
+                        <default>qualityunit_liveagent.csv</default>
+                    </files>
+                </liveagent>
+            </modules>
+        </translate>
 	</adminhtml>
 	<global>
 		<models>
