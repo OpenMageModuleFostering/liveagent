@@ -28,8 +28,8 @@ class Qualityunit_Liveagent_Block_Signup extends Qualityunit_Liveagent_Block_Bas
 
 	private function getdomainOnly() {
 		$domain = preg_replace('/^(.*\.)?([^.]*\..*)$/', '$2', @$_SERVER['HTTP_HOST']);
-		if (trim($domain) == 'localhost') {
-			return strtolower(str_replace(' ', '', $this->getOwnerName())) . rand(100, 5000);
+		if (trim($domain) == 'localhost' || trim($domain) == 'www' || trim($domain) == 'http' || trim($domain) == 'dev') {
+			return '';
 		}
 		return $domain;
 	}
