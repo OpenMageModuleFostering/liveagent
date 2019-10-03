@@ -1,3 +1,5 @@
+
+
 ## Original Package Description
 
 LiveAgent plugin integrates well known help desk and live chat software into any Magento installation. No HTML knowledge is required.
